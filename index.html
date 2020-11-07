@@ -36,8 +36,29 @@
       color: pink;
     }
 
-    /* BACKGROUND COLOR MASK */
-    :root { --cover-background-mask-visibility: 0; }
+    body > main > section > aside {
+      width: 300px !important;
+    }
+
+    main {
+      width: 92%; 
+    }
+
+    main p {
+      text-align: justify;
+    }
+
+    :root {
+      --cover-background-mask-visibility: 0;
+      --heading-h5-font-size: var(--heading-h4-font-size);
+      --heading-h6-font-size: var(--heading-h4-font-size);
+      --heading-h6-font-size: var(--heading-h4-font-size);
+      --base-font-size: 18px;
+
+      --font-size-xxxl  : var(--modular-scale-2);
+      --font-size-xxl   : var(--modular-scale-2);
+      --font-size-xl   : var(--modular-scale-2);
+    }
 
   </style>
 
@@ -53,9 +74,11 @@
     name: 'Home',
     auto2top: true,
     loadSidebar: true,
-    alias: { '/.*/_sidebar.md': '/_sidebar.md', },
-    subMaxLevel: 1,
-    coverpage: true,
+    coverpage: false,
+    toc: {
+      tocMaxLevel: 3,
+      target: 'h2, h3, h4, h5, h6'
+    },
     search: { noData: { '/': 'No results!' }, paths: 'auto', placeholder: { '/': '🔍 Search' } }
   }
 </script>
@@ -69,5 +92,8 @@
 <!-- embed pdf -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script src="//unpkg.com/docsify-plugin-toc"></script>
+<script src="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/js/docsify-themeable.min.js"></script>
 
 </html>
