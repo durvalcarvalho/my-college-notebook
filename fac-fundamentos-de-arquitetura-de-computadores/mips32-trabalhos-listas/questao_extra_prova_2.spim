@@ -1,0 +1,34 @@
+# O código que devia ser analisado era algo parecido com esse
+
+.data
+	val1: 	.word 42
+	val2:	.word 1 	# ultimo dígito da sua matrícula
+
+.text
+main:
+
+	lw $t0, val1
+	lw $t1, val2
+
+	add $t1, $t1, 0x0001
+
+	jal OpeNor
+
+	add $t0, $t0, 0x0001
+	add $t0, $t0, $t1
+	
+	move $a0, $t0
+	li $v0, 1				# syscall 1: print integer
+	syscall
+	
+	j return0
+
+OpeNor:
+	nor $t0, $t0, $zero		# Inverte o sinal do número
+	add $t0, $t0, 0x0001
+	jr $ra
+
+return0:
+	li $v0, 10
+	syscall
+

@@ -1,0 +1,188 @@
+.data
+	text1: .asciiz "ADD: "
+	text2: .asciiz "SUB: "
+	text3: .asciiz "AND: "
+	text4: .asciiz "OR: "
+	text5: .asciiz "XOR: "
+	text6: .asciiz "SLL(3): "
+	text7: .asciiz "SRL(1): "
+	text8: .asciiz "\n"
+	text9: .asciiz "Enter the first number: "
+	text10: .asciiz "Enter the second number: "
+
+.text
+main:
+	
+	#	li $v0, 4	# syscall 4 - impressao de uma string 
+	#	la $a0, text9	# $a0 armazena o endereço da string
+	#	syscall		# syscall imprimi a string
+
+	li $v0, 5	# syscall 5 - leitura de inteiro
+	syscall		# syscall ler um inteiro e salva no registrador v0
+	move $t0, $v0	# t0 = v0 (input)
+	
+	#	li $v0, 4	# syscall 4 - impressão de uma string
+	#	la $a0, text10	# string que será impressa
+	#	syscall		# chamada de sistema
+	
+	li $v0, 5	# syscall 5 - leitura de inteiro
+	syscall		# chamada de sistema
+	move $t1, $v0	# t1 = v0 (input)
+	
+	# ADD (N1 + N2)
+	move $a2, $t0	# Parâmetro 1
+	move $a3, $t1	# Parâmetro 2
+	jal addit	
+	jal subit
+	jal andit
+	jal orit
+	jal xorit
+	jal shiftLeft
+	jal shiftRight
+	
+	# Termina o programa
+	li $v0, 10
+	syscall
+
+shiftRight:
+	# IMPRIMO UMA MENSAGEM NA TELA
+	li $v0, 4	# syscall 4 - imprimir uma string
+	la $a0, text7	# $a0 recebe a string "ADD: "
+	syscall		# imprimi a string na tela
+	
+	srl $v1, $a3, 1	
+	
+	# IMPRIMO UMA MENSAGEM NA TELA
+	li $v0, 1	# syscall 1 - impressao de inteiro
+	move $a0, $v1	# $a0 recebe o valor de $v1
+	syscall		# imprimi o valor de #v1
+	
+	# IMPRIMO UMA QUEBRA DE LINHA
+	li $v0, 4	# syscall 4 - imprimir uma string
+	la $a0, text8	# $a0 recebe a string "\n"
+	syscall		# imprimi a quebra de linha
+	
+	jr $ra		# retorna para a main
+	
+
+shiftLeft:
+	# IMPRIMO UMA MENSAGEM NA TELA
+	li $v0, 4	# syscall 4 - imprimir uma string
+	la $a0, text6	# $a0 recebe a string "ADD: "
+	syscall		# imprimi a string na tela
+	
+	sll $v1, $a2, 3	
+	
+	# IMPRIMO UMA MENSAGEM NA TELA
+	li $v0, 1	# syscall 1 - impressao de inteiro
+	move $a0, $v1	# $a0 recebe o valor de $v1
+	syscall		# imprimi o valor de #v1
+	
+	# IMPRIMO UMA QUEBRA DE LINHA
+	li $v0, 4	# syscall 4 - imprimir uma string
+	la $a0, text8	# $a0 recebe a string "\n"
+	syscall		# imprimi a quebra de linha
+	
+	jr $ra		# retorna para a main
+	
+
+xorit:	
+	# IMPRIMO UMA MENSAGEM NA TELA
+	li $v0, 4	# syscall 4 - imprimir uma string
+	la $a0, text5	# $a0 recebe a string "XOR: "
+	syscall		# imprimi a string na tela
+	
+	xor $v1, $a2, $a3	# $v1 recebe o $a2 + $a3
+	
+	# IMPRIMO UMA MENSAGEM NA TELA
+	li $v0, 1	# syscall 1 - impressao de inteiro
+	move $a0, $v1	# $a0 recebe o valor de $v1
+	syscall		# imprimi o valor de #v1
+	
+	# IMPRIMO UMA QUEBRA DE LINHA
+	li $v0, 4	# syscall 4 - imprimir uma string
+	la $a0, text8	# $a0 recebe a string "\n"
+	syscall		# imprimi a quebra de linha
+	
+	jr $ra		# retorna para a main
+
+orit:	
+	# IMPRIMO UMA MENSAGEM NA TELA
+	li $v0, 4	# syscall 4 - imprimir uma string
+	la $a0, text4	# $a0 recebe a string "OR: "
+	syscall		# imprimi a string na tela
+	
+	or $v1, $a2, $a3	# $v1 recebe o $a2 + $a3
+	
+	# IMPRIMO UMA MENSAGEM NA TELA
+	li $v0, 1	# syscall 1 - impressao de inteiro
+	move $a0, $v1	# $a0 recebe o valor de $v1
+	syscall		# imprimi o valor de #v1
+	
+	# IMPRIMO UMA QUEBRA DE LINHA
+	li $v0, 4	# syscall 4 - imprimir uma string
+	la $a0, text8	# $a0 recebe a string "\n"
+	syscall		# imprimi a quebra de linha
+	
+	jr $ra		# retorna para a main
+
+andit:	
+	# IMPRIMO UMA MENSAGEM NA TELA
+	li $v0, 4	# syscall 4 - imprimir uma string
+	la $a0, text3	# $a0 recebe a string "AND: "
+	syscall		# imprimi a string na tela
+	
+	and $v1, $a2, $a3	# $v1 recebe o $a2 + $a3
+	
+	# IMPRIMO UMA MENSAGEM NA TELA
+	li $v0, 1	# syscall 1 - impressao de inteiro
+	move $a0, $v1	# $a0 recebe o valor de $v1
+	syscall		# imprimi o valor de #v1
+	
+	# IMPRIMO UMA QUEBRA DE LINHA
+	li $v0, 4	# syscall 4 - imprimir uma string
+	la $a0, text8	# $a0 recebe a string "\n"
+	syscall		# imprimi a quebra de linha
+	
+	jr $ra		# retorna para a main
+	
+subit:	
+	# IMPRIMO UMA MENSAGEM NA TELA
+	li $v0, 4	# syscall 4 - imprimir uma string
+	la $a0, text2	# $a0 recebe a string "SUB: "
+	syscall		# imprimi a string na tela
+	
+	sub $v1, $a2, $a3	# $v1 recebe o $a2 + $a3
+	
+	# IMPRIMO UMA MENSAGEM NA TELA
+	li $v0, 1	# syscall 1 - impressao de inteiro
+	move $a0, $v1	# $a0 recebe o valor de $v1
+	syscall		# imprimi o valor de #v1
+	
+	# IMPRIMO UMA QUEBRA DE LINHA
+	li $v0, 4	# syscall 4 - imprimir uma string
+	la $a0, text8	# $a0 recebe a string "\n"
+	syscall		# imprimi a quebra de linha
+	
+	jr $ra		# retorna para a main
+
+addit:	
+	# IMPRIMO UMA MENSAGEM NA TELA
+	li $v0, 4	# syscall 4 - imprimir uma string
+	la $a0, text1	# $a0 recebe a string "ADD: "
+	syscall		# imprimi a string na tela
+	
+	add $v1, $a2, $a3	# $v1 recebe o $a2 + $a3
+	
+	# IMPRIMO UMA MENSAGEM NA TELA
+	li $v0, 1	# syscall 1 - impressao de inteiro
+	move $a0, $v1	# $a0 recebe o valor de $v1
+	syscall		# imprimi o valor de #v1
+	
+	# IMPRIMO UMA QUEBRA DE LINHA
+	li $v0, 4	# syscall 4 - imprimir uma string
+	la $a0, text8	# $a0 recebe a string "\n"
+	syscall		# imprimi a quebra de linha
+	
+	jr $ra		# retorna para a main
+	

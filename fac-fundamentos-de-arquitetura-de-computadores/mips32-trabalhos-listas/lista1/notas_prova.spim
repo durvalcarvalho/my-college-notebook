@@ -1,0 +1,56 @@
+.data
+	A: .asciiz "A\n"
+	B: .asciiz "B\n"
+	C: .asciiz "C\n"
+	D: .asciiz "D\n"
+	E: .asciiz "E\n"
+
+.text
+main:
+	li $v0, 5		# syscall 5: read integer
+	syscall
+	move $s0, $v0	# $s0 = n
+
+	slti $t0, $s0, 1
+	bne $t0, $zero, ee
+
+	slti $t0, $s0, 36
+	bne $t0, $zero, dd
+
+	slti $t0, $s0, 61
+	bne $t0, $zero, cc
+
+	slti $t0, $s0, 86
+	bne $t0, $zero, bb
+
+	j aa
+
+aa:
+	li $v0, 4 		# syscall 4: print string
+	la $a0, A
+	syscall
+	j exit
+bb:
+	li $v0, 4 		# syscall 4: print string
+	la $a0, B
+	syscall
+	j exit
+cc:
+	li $v0, 4 		# syscall 4: print string
+	la $a0, C
+	syscall
+	j exit
+dd:
+	li $v0, 4 		# syscall 4: print string
+	la $a0, D
+	syscall
+	j exit
+ee:
+	li $v0, 4 		# syscall 4: print string
+	la $a0, E
+	syscall
+	j exit
+
+exit:
+	li $v0, 10	# syscall 10: exit program
+	syscall

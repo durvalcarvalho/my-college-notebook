@@ -1,0 +1,112 @@
+.data
+	text: .asciiz "\n"
+	str1: .space 1024
+
+.text
+main:
+	la $a0, str1	# param 1: memory andress
+	li $a1, 1024	# param 2: max size
+	li $v0, 8	# syscall 8: read string
+	syscall
+
+	la $t1, str1	# &str1
+comp:
+	lb $t2, ($t1)	# load char
+	beqz $t2, exit	# if equal 0 exit
+
+	slti $t3, $t2, 64
+
+	beq $t3, $zero, change
+
+	addu $t1, $t1, 1
+
+	j comp
+
+change:
+	
+	li $t4, 1
+	slti $t3, $t2, 68	# ABC	#if $t3 = 1 change to 2
+	beq $t3, $t4, put2
+
+	slti $t3, $t2, 71	# DEF	#if $t3 = 1 change to 3
+	beq $t3, $t4, put3
+
+	slti $t3, $t2, 74	# GHI	#if $t3 = 1 change to 4
+	beq $t3, $t4, put4
+
+	slti $t3, $t2, 77	# JKL	#if $t3 = 1 change to 5
+	beq $t3, $t4, put5
+
+	slti $t3, $t2, 80	# MNO	#if $t3 = 1 change to 6
+	beq $t3, $t4, put6
+
+	slti $t3, $t2, 84	# PQRS	#if $t3 = 1 change to 7
+	beq $t3, $t4, put7
+
+	slti $t3, $t2, 87	# TUV	#if $t3 = 1 change to 8
+	beq $t3, $t4, put8
+
+	slti $t3, $t2, 91	# WXYZ	#if $t3 = 1 change to 9
+	beq $t3, $t4, put9
+
+	j comp
+
+put2:
+	li $t2, 50
+	sb $t2, ($t1)
+	addu $t1, $t1, 1
+	j comp
+
+put3:
+	li $t2, 51
+	sb $t2, ($t1)
+	addu $t1, $t1, 1
+	j comp
+
+put4:
+	li $t2, 52
+	sb $t2, ($t1)
+	addu $t1, $t1, 1
+	j comp
+
+put5:
+	li $t2, 53
+	sb $t2, ($t1)
+	addu $t1, $t1, 1
+	j comp
+
+put6:
+	li $t2, 54
+	sb $t2, ($t1)
+	addu $t1, $t1, 1
+	j comp
+
+put7:
+	li $t2, 55
+	sb $t2, ($t1)
+	addu $t1, $t1, 1
+	j comp
+
+put8:
+	li $t2, 56
+	sb $t2, ($t1)
+	addu $t1, $t1, 1
+	j comp
+
+put9:
+	li $t2, 57
+	sb $t2, ($t1)
+	addu $t1, $t1, 1
+	j comp
+
+exit:
+	li $v0, 4 		# syscall 4: print string
+	la $a0, str1
+	syscall
+
+	li $v0, 4 		# syscall 4: print string
+	la $a0, text
+	syscall
+
+	li $v0, 10	# syscall 10: exit program
+	syscall

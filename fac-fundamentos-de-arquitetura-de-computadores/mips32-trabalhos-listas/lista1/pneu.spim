@@ -1,0 +1,24 @@
+.data
+	text: .asciiz "\n"
+
+.text
+main:
+	li $v0, 5		# syscall 5: read integer
+	syscall
+	move $s1, $v0	# $s1 = input()
+
+	li $v0, 5		# syscall 5: read integer
+	syscall
+	move $s2, $v0	# $s2 = input()
+
+	sub $a0, $s1, $s2	# $a0 = $s1 - $s2
+
+	li $v0, 1		# syscall 1: print integer
+	syscall
+
+	li $v0, 4 		# syscall 4: print string
+	la $a0, text
+	syscall
+
+	li $v0, 10	# syscall 10: exit program
+	syscall

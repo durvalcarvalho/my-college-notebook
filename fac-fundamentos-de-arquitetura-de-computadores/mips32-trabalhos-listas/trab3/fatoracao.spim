@@ -1,0 +1,90 @@
+# Durval Carvalho 	--	16/0005191
+# Gabriel Tiveron 	--	17/0103471
+
+## fatoracao.spim:
+#					-- 	Este programa computa a 
+#						decomposição dos números 
+#						entre [2 e 32767]
+
+
+## Instruções:		
+#					-- 	Digite um número de 2 à 32767 
+#						para visualizar sua 
+#						decomposição em fatores primos
+
+## Limitações:
+#					-- 	O programa não funciona para 
+#						números menores que 2 e 
+#						maiores que 32767
+#
+
+## Registradores usados:
+
+#		$a0 -- 	Usado para passar parâmetros para as 
+#				syscalls
+
+#		$v0	-- 	Usado na chamada do syscall;
+#				Usado no retorno da syscall
+
+#		$s0	--	Armazena o valor do digitado
+
+#		$s1 --	Usado para subtratrir 127 do input 
+#				digitado;
+
+#		$t0 --	Usado como divisor do número digitado
+
+#		#t2 -- 	Usado para comparar o número digitado 
+#				com 1
+
+
+.text
+main:
+	li $v0, 5
+	syscall
+	move $s0, $v0			# scanf("%d", $s0);
+
+	# if $s0 > 32767 or $s0 < 1 print error
+	bgt	$s0, 32767, not_ok
+	blt	$s0, 1, not_ok
+
+	li $t0, 2				# divisor
+	li $t2, 1				# stop when $s0 == $t2
+
+	j factors
+
+add1:
+	addi $t0, $t0, 1
+
+factors:
+
+	beq $s0, $t2, return0	# if $s0 == 1, return 0
+
+	div $s0, $t0			# $hi = $s0 % $t0
+	mfhi $t1				# $t1 = $hi
+
+	bgtz $t1, add1			# if $t1 > 0 $t0++
+
+	move $a0, $t0
+	li $v0, 1				# syscall 1: print integer
+	syscall
+
+	li $v0, 4				# syscall 4: print string
+	la $a0, text_endl
+	syscall
+
+	mflo $s0 				# $s0 = $s0 / $t0
+
+	j factors
+
+not_ok:
+	li $v0, 4
+	la $a0, text 			# print("%s", text);
+	syscall
+
+return0:
+	li $v0, 10				# return 0;
+	syscall
+
+.data
+	text: 		.asciiz "Entrada invalida.\n"
+	text_endl:	.asciiz "\n"

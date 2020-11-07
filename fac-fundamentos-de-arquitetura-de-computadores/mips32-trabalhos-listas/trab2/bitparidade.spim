@@ -1,0 +1,137 @@
+# Durval Carvalho 	--	16/0005191
+# Gabriel Tiveron 	--	17/0103471
+# bit_paridade.spim -- 	Este programa computa o numero binario com
+# 						bit de paridade de números menores que 127
+#
+# Instruções:		-- 	Digite qualquer numero positivo. Para 
+#						números menores que 128 será mostrado o 
+#						bit de paridade adicionado e o valor 
+#						decimal do número binario com o bit de 
+#						paridade
+
+# Limitações:		-- O programa não funciona com números negativos
+#
+# Registradores usados:
+#		$v0	-- 	Usado na chamada do syscall;
+#				Usado no retorno da syscall
+#
+#		$s0	--	Armazena o valor do digitado
+#
+#		$s1 --	Usado para subtratrir 127 do input digitado;
+#				Usado como contador de bits 1
+#
+#		$s2	-- 	Recebe a input menos 127;
+#				Usado como cópia do input;
+#
+#		$s3 --  Usado para comparar ($s2) com $zero (1 se $s2 < $zero);
+#				Usado para receber o bit menos significativo de ($s2)
+#
+#		$s6	--	Usado para armazenar o ($s7) com 7 shift right
+#				Usado para armazenar o input com o bit de paridade
+#
+#		$s7	--	Usado para receber o bit menos significativo de ($s1)
+#	
+#		$a0 --  Usado para passar o endereço das string utilizadas
+
+
+	.text
+main:
+
+	# Ler um número do terminal
+	li $v0, 5
+	syscall
+	add $s0, $v0, $zero	# Salvo o número em $s0
+
+	# Subtraio 127 para verificar se o input é maior que 127
+	li $s1, 127
+	sub $s2, $s1, $s0	# Guardo o resultado em $s2
+	
+	# Se input maior que 127 pulo para "wrong_input"
+	slt $s3, $s2, $zero
+	bgtz $s3, wrong_input
+
+	# Zero o contador de bits 1
+	move $s1, $zero
+
+	# Faço uma cópia do input em $s2
+	move $s2, $s0
+
+	# Loop para contar a quantidade de bits 1
+	loop:
+			# Se a copia do input for 0 pulo para "print"
+			beq $s2, $zero, print
+
+			# Salvo o bit menos significativo de $s2 (Ox0001 é 1 em hexadecimal)
+			and $s3, $s2, 0x0001
+			
+			# Divisão inteira na cópia do input
+			srl $s2, $s2, 1
+
+			# Se o LSB for 0, recomeço o loop
+			beq $s3, $zero, loop
+
+			# Caso contrário adiciono 1 no contador
+			addi $s1, $s1, 1
+
+		# Recomeço o loop
+		j loop
+
+print:
+	
+	# Salvo o bit menos significativo do contador para descobrir se é um valor impar ou par
+	and $s7, $s1, 0x0001
+	
+	# Escrevo uma string no terminal
+	li $v0, 4
+	la $a0, text_paridade
+	syscall
+
+	# Imprimo 0 ou 1 (0 se o contador for par, 1 se for impar)
+	li $v0, 1
+	move $a0, $s7
+	syscall
+
+	# Escrevo uma string no terminal
+	li $v0, 4
+	la $a0, text_saida
+	syscall
+
+	# Faço 7 deslocações à direita para descolar o bit de pariedade na 8 posição
+	sll $s6, $s7, 7
+
+	# Somo o input com o bit de paridade
+	add $s6, $s6, $s0
+
+	# Imprimo o resultado no terminal
+	li $v0, 1
+	move $a0, $s6
+	syscall
+
+	# Imprimo uma string no terminal
+	li $v0, 4
+	la $a0, text_endl
+	syscall
+
+	# Pulo para "return0"
+	j return0
+	
+	
+wrong_input:
+	
+	# Escrevo uma string no terminal
+	li $v0, 4
+	la $a0, text
+	syscall
+
+return0:
+	
+	# Finalizo o programa
+	li $v0, 10
+	syscall
+
+
+	.data
+text: 		.asciiz "entrada incorreta\n"
+text_paridade: 	.asciiz "bit-paridade: "
+text_saida: 	.asciiz "\nsaida: "
+text_endl:	.asciiz "\n"
