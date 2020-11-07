@@ -1,0 +1,23 @@
+Esse programa foi desenvolvido com o seguinte ambiente:
+	Sistema Operacional Ubuntu 18.04
+	Versão do python: 3.7
+	Pacotes necessários: tkinter
+
+Certifique que o pacote de interface gráfica tkinter
+esteja instalado
+	
+	Comando para instalar o pacote no Ubuntu 18.04 e 16.04
+		sudo apt-get install python3-tk
+
+Certifique a versão do python instalado seja igual ou maior
+que a versão 3.5
+
+	Comando para verificar a versão do python
+		python3 --version
+	
+	Comando para instalar o python3.7 no Ubuntu 18.04 e 16.04
+		sudo apt-get install python3.7
+
+	
+Para executar o projeto, utilize o comando abaixo
+	python3 main.py

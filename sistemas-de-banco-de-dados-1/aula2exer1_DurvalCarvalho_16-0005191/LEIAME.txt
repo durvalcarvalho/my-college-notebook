@@ -1,0 +1,29 @@
+Esse programa é uma melhoria do programa 
+'aula1exer1_IndiaraSilva_14-0022325.c'
+
+Esse programa foi desenvolvido com o seguinte ambiente:
+	Sistema Operacional Ubuntu 18.04
+	Versão do python: 3.7
+	Pacotes necessários: prettytable
+
+Certifique que o pacote de renderização de tabelas esteja instalado
+	
+	Comando para instalar o pacote no Ubuntu 18.04 e 16.04
+		pip3 install -r requirements.txt
+
+Certifique a versão do python instalado seja igual ou maior
+que a versão 3.7
+
+	Comando para verificar a versão do python
+		python3 --version
+	
+	Comando para instalar o python3.7 no Ubuntu 18.04 e 16.04
+		sudo apt-get install python3.7
+
+Para executar o programa, utilize o comando abaixo
+	python3 main.py
+
+Caso não consiga executá-lo em seu ambiente assista 
+o vídeo do programa em execução:
+
+	link: https://youtu.be/ebM4lV6XrvU

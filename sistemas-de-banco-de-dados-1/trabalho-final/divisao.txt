@@ -1,0 +1,9 @@
+GERAR O Diagrama Entidade Relacionamento    => GERALDO
+CRIAR O SCRIPT FISICO                       => GERALDO
+CRIAR O SCRIPT CONTROLE                     => DURVAL
+CRIAR DICIONARIO DE DADOS                   => DURVAL
+CRIAR O SCRIPT APAGA                        => TIVERON
+CRIAR O SCRIPT CONSULTA                     => TIVERON
+DESCREVER OS RELACIONAMENTOS(D0C)           => IAGO
+DESCREVER AS ENTIDADES(D0C)                 => IAGO
+CRIAR O SCRIPT POPULA                       => TODOS
